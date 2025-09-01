@@ -3,155 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PsyNote - Психологическое приложение</title>
+    <title>PsyNote - Психологическая платформа</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        psyblue: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1'
-                        },
-                        psypurple: {
-                            50: '#faf5ff',
-                            100: '#f3e8ff',
-                            500: '#a855f7',
-                            600: '#9333ea',
-                            700: '#7c3aed'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .gradient-bg {
+        .decision-gate {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        .card-hover {
+        .gate-card {
             transition: all 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-        .glass-effect {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        .choice-btn {
+            transition: all 0.3s ease;
+        }
+        .choice-btn:hover {
+            transform: scale(1.05);
+        }
+        .explanation-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid;
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
-    <header class="gradient-bg text-white py-20">
-        <div class="container mx-auto px-4 text-center">
+<body class="decision-gate text-white">
+    <div class="container mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
             <h1 class="text-5xl font-bold mb-6">PSYNOTE</h1>
-            <p class="text-xl mb-8 opacity-90">Платформа для психологического самоанализа и личностного роста</p>
-            <div class="w-24 h-1 bg-white opacity-50 mx-auto"></div>
-        </div>
-    </header>
+            <p class="text-xl opacity-90 mb-4">Платформа для психологического самоанализа</p>
+            <div class="w-32 h-1 bg-white opacity-50 mx-auto mb-8"></div>
+            <h2 class="text-3xl font-semibold mb-6">Выберите ваш текущий статус:</h2>
+        </header>
 
-    <!-- Decision Gate -->
-    <section class="py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Выберите модуль</h2>
-            <p class="text-gray-600 text-center mb-12">Исследуйте разные подходы к самопознанию</p>
+        <!-- Decision Gate Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
+            <!-- Вариант А: Понимаю проблему -->
+            <div class="gate-card rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">💡</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Вариант А</h3>
+                <p class="text-lg opacity-90 mb-4">"Я понимаю, что со мной происходит"</p>
+                <a href="/self-analysis" 
+                   class="choice-btn inline-block px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold">
+                    Модуль самоанализа →
+                </a>
+            </div>
+
+            <!-- Вариант Б: Затрудняюсь определить -->
+            <div class="gate-card rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">❓</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Вариант Б</h3>
+                <p class="text-lg opacity-90 mb-4">"Я затрудняюсь определить проблему"</p>
+                <button onclick="showComingSoon()" 
+                        class="choice-btn inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
+                    Психометрические тесты →
+                </button>
+            </div>
+        </div>
+
+        <!-- Alternative Option -->
+        <div class="text-center mb-8">
+            <div class="gate-card rounded-2xl p-6 max-w-2xl mx-auto">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">🎲</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Не уверены в выборе?</h3>
+                <p class="opacity-90 mb-4">Используйте древнее искусство гадания для размышлений</p>
+                <a href="/iching" 
+                   class="choice-btn inline-block px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold">
+                    Спросить у Книги Перемен
+                </a>
+            </div>
+        </div>
+
+        <!-- Пояснительный текст -->
+        <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-2xl p-8 border border-white border-opacity-20">
+            <h3 class="text-2xl font-semibold mb-6 text-center">📋 Как это работает?</h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- Книга Перемен -->
-                <div class="card-hover bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span class="text-3xl">☯</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Вариант А -->
+                <div class="explanation-box border-green-400 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-bold">А</span>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Книга Перемен</h3>
-                        <p class="text-gray-600 mb-6">Древнее китайское искусство гадания И-Цзин для самопознания и принятия решений</p>
-                        <a href="/iching" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium">
-                            Открыть модуль
-                        </a>
+                        <h4 class="font-semibold text-green-300">Вариант А</h4>
                     </div>
+                    <p class="text-sm opacity-90 mb-2">"Я понимаю, что со мной происходит"</p>
+                    <p class="text-xs opacity-70">→ Модуль самоанализа ✅</p>
+                    <p class="text-xs opacity-80 mt-2">Для глубокой рефлексии и работы с осознанными состояниями</p>
                 </div>
 
-                <!-- Самоанализ -->
-                <div class="card-hover bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span class="text-3xl">📊</span>
+                <!-- Вариант Б -->
+                <div class="explanation-box border-blue-400 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-bold">Б</span>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Самоанализ</h3>
-                        <p class="text-gray-600 mb-6">Техники рефлексии, вопросы для самопознания и анализ эмоционального состояния</p>
-                        <a href="/self-analysis" class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300 font-medium">
-                            Исследовать
-                        </a>
+                        <h4 class="font-semibold text-blue-300">Вариант Б</h4>
                     </div>
+                    <p class="text-sm opacity-90 mb-2">"Я затрудняюсь определить проблему"</p>
+                    <p class="text-xs opacity-70">→ Психометрические тесты 🚧</p>
+                    <p class="text-xs opacity-80 mt-2">Для диагностики и понимания неясных состояний (в разработке)</p>
                 </div>
 
-                <!-- В разработке -->
-                <div class="card-hover bg-gray-100 rounded-2xl shadow-lg p-8 border border-gray-200 opacity-80">
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span class="text-3xl">🚧</span>
+                <!-- Альтернатива -->
+                <div class="explanation-box border-purple-400 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-bold">→</span>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-600 mb-3">В разработке</h3>
-                        <p class="text-gray-500 mb-6">Скоро здесь появится новый психологический модуль</p>
-                        <button class="px-6 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed font-medium">
-                            Скоро доступно
-                        </button>
+                        <h4 class="font-semibold text-purple-300">Альтернатива</h4>
                     </div>
+                    <p class="text-sm opacity-90 mb-2">"Не уверен в выборе"</p>
+                    <p class="text-xs opacity-70">→ Книга Перемен 🎲</p>
+                    <p class="text-xs opacity-80 mt-2">Древнее искусство гадания для инсайтов и размышлений</p>
                 </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-yellow-500 bg-opacity-20 rounded-lg text-center">
+                <p class="text-sm opacity-90">💡 Выберите путь, который resonates с вашим текущим состоянием. 
+                Каждый вариант ведет к разным инструментам самопознания.</p>
             </div>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Возможности платформы</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-psyblue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">💭</span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Рефлексия</h3>
-                    <p class="text-gray-600">Техники для глубокого самоанализа и понимания себя</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-psypurple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🎯</span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Инсайты</h3>
-                    <p class="text-gray-600">Получайте ценные insights о своих паттернах поведения</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">📈</span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Развитие</h3>
-                    <p class="text-gray-600">Инструменты для личностного роста и развития</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- Footer -->
+        <footer class="text-center mt-12 pt-8 border-t border-white border-opacity-20">
+            <p class="opacity-70">PsyNote - Психологическая платформа для самоисследования</p>
+        </footer>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-4 text-center">
-            <div class="mb-6">
-                <h3 class="text-2xl font-bold mb-2">PsyNote</h3>
-                <p class="text-gray-400">Психологическая платформа для самоисследования</p>
-            </div>
-            <div class="flex justify-center space-x-6 mb-6">
-                <a href="#" class="text-gray-400 hover:text-white transition">О проекте</a>
-                <a href="#" class="text-gray-400 hover:text-white transition">Контакты</a>
-                <a href="#" class="text-gray-400 hover:text-white transition">Помощь</a>
-            </div>
-            <p class="text-gray-400">&copy; 2024 PsyNote. Все права защищены.</p>
-        </div>
-    </footer>
+    <script>
+        function showComingSoon() {
+            alert('🚧 Модуль психометрического тестирования находится в разработке\n\nПока вы можете воспользоваться:\n• Модулем самоанализа - для осознанной работы\n• Книгой Перемен - для инсайтов и размышлений');
+        }
+
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.gate-card, .explanation-box');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
 </body>
 </html>
