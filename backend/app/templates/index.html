@@ -7,35 +7,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
     .decision-gate {
-        background: linear-gradient(135deg, #94a5ff 0%, #a083cc 100%); /* Очень светлый фон */
+        background: linear-gradient(135deg, #7c8dea 0%, #8a68b0 100%);
         min-height: 100vh;
     }
     .gate-card {
         transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.95); /* Почти белые карточки */
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-        border-radius: 20px;
-        color: #374151; /* Темный текст для контраста */
+        backdrop-filter: blur(12px);
+        background: rgba(235, 220, 245, 0.85); /* Светло-цикломеновый с прозрачностью */
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border-radius: 18px;
+        color: #4a3f5c; /* Темно-фиолетовый текст для контраста */
     }
     .gate-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        background: rgba(240, 230, 250, 0.95); /* Чуть светлее при наведении */
     }
     .gate-card h3,
     .gate-card p {
-        color: #374151; /* Темный текст */
+        color: #4a3f5c; /* Темно-фиолетовый текст */
+    }
+    .choice-btn {
+        transition: all 0.3s ease;
+    }
+    .choice-btn:hover {
+        transform: scale(1.05);
     }
     .explanation-box {
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.7);
-        color: #374151;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        background: rgba(235, 220, 245, 0.8); /* Тот же цикломеновый */
+        border-left: 4px solid;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        color: #4a3f5c;
     }
     .explanation-box h4,
     .explanation-box p {
-        color: #374151; /* Темный текст */
+        color: #4a3f5c; /* Темно-фиолетовый текст */
     }
 </style>
 </head>
