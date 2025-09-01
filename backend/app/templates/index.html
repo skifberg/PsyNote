@@ -6,47 +6,47 @@
     <title>PsyNote - Психологическая платформа</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    .decision-gate {
-        background: linear-gradient(135deg, #7c8dea 0%, #8a68b0 100%);
-        min-height: 100vh;
-    }
-    .gate-card {
-        transition: all 0.3s ease;
-        backdrop-filter: blur(12px);
-        background: rgba(235, 220, 245, 0.85); /* Светло-цикломеновый с прозрачностью */
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border-radius: 18px;
-        color: #4a3f5c; /* Темно-фиолетовый текст для контраста */
-    }
-    .gate-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        background: rgba(240, 230, 250, 0.95); /* Чуть светлее при наведении */
-    }
-    .gate-card h3,
-    .gate-card p {
-        color: #4a3f5c; /* Темно-фиолетовый текст */
-    }
-    .choice-btn {
-        transition: all 0.3s ease;
-    }
-    .choice-btn:hover {
-        transform: scale(1.05);
-    }
-    .explanation-box {
-        background: rgba(235, 220, 245, 0.8); /* Тот же цикломеновый */
-        border-left: 4px solid;
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 12px;
-        color: #4a3f5c;
-    }
-    .explanation-box h4,
-    .explanation-box p {
-        color: #4a3f5c; /* Темно-фиолетовый текст */
-    }
-</style>
+        .decision-gate {
+            background: linear-gradient(135deg, #7c8dea 0%, #8a68b0 100%);
+            min-height: 100vh;
+        }
+        .gate-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            background: rgba(230, 210, 240, 0.9); /* Более насыщенный цикломен */
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            color: #443a56; /* Еще темнее текст */
+        }
+        .gate-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            background: rgba(235, 220, 245, 0.95);
+        }
+        .gate-card h3 {
+            color: #5a4b6b; /* Фиолетовый заголовок */
+        }
+        .gate-card p {
+            color: #554966; /* Фиолетовый текст */
+        }
+        .choice-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .choice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+        .explanation-box {
+            background: rgba(230, 210, 240, 0.85);
+            border-left: 4px solid;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            color: #443a56;
+        }
+    </style>
 </head>
 <body class="decision-gate text-white">
     <div class="container mx-auto px-4 py-12">
@@ -80,10 +80,10 @@
                 </div>
                 <h3 class="text-xl font-semibold mb-3">Вариант Б</h3>
                 <p class="text-lg opacity-90 mb-4">"Я затрудняюсь определить проблему"</p>
-                <button onclick="showComingSoon()" 
-                        class="choice-btn inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
+                <a href="/psychometrics"
+                   class="choice-btn inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
                     Психометрические тесты →
-                </button>
+                </a>
             </div>
         </div>
 
@@ -148,7 +148,7 @@
             </div>
 
             <div class="mt-6 p-4 bg-yellow-500 bg-opacity-20 rounded-lg text-center">
-                <p class="text-sm opacity-90">💡 Выберите вариант, который резонирует с вашим текущим состоянием. 
+                <p class="text-sm opacity-90">💡 Выберите путь, который откликается в вашем текущем состоянии. 
                 Каждый вариант ведет к разным инструментам самопознания.</p>
             </div>
         </div>
@@ -160,10 +160,6 @@
     </div>
 
     <script>
-        function showComingSoon() {
-            alert('🚧 Модуль психометрического тестирования находится в разработке\n\nПока вы можете воспользоваться:\n• Модулем самоанализа - для осознанной работы\n• Книгой Перемен - для инсайтов и размышлений');
-        }
-
         // Анимация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             const elements = document.querySelectorAll('.gate-card, .explanation-box');

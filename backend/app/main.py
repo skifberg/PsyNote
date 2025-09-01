@@ -11,7 +11,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ПРАВИЛЬНЫЕ пути - без префикса "app/"
+# Правильные пути к статическим файлам и шаблонам
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -46,14 +46,31 @@ async def self_analysis_page(request: Request):
     """Страница модуля самоанализа"""
     return templates.TemplateResponse("self_analysis.html", {"request": request})
 
+@app.get("/psychometrics")
+async def psychometrics_page(request: Request):
+    """Страница психометрических тестов"""
+    return templates.TemplateResponse("psychometrics.html", {"request": request})
+
 @app.get("/api/health")
 async def health_check():
     """Проверка здоровья всего приложения"""
     return {
         "status": "healthy", 
         "service": "PsyNote",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "modules": ["iching", "self_analysis", "psychometrics"]
     }
+
+# Error handlers
+@app.exception_handler(404)
+async def not_found_handler(request: Request, exc: Exception):
+    """Обработчик 404 ошибок"""
+    return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
+
+@app.exception_handler(500)
+async def internal_error_handler(request: Request, exc: Exception):
+    """Обработчик 500 ошибок"""
+    return templates.TemplateResponse("500.html", {"request": request}, status_code=500)
 
 if __name__ == "__main__":
     import uvicorn
