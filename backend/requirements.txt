@@ -1,3 +1,9 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-sqlalchemy==2.0.23
+# Вернемся в корень проекта
+cd ~/PsyNote
+
+# Обновим requirements.txt
+echo "jinja2==3.1.6" >> backend/requirements.txt
+echo "markupsafe==3.0.2" >> backend/requirements.txt
+
+# Установим все зависимости
+pip install -r backend/requirements.txt
