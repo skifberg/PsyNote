@@ -2,88 +2,35 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Книга Перемен - PsyNote</title>
-    <style>
-        body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .hexagram-symbol {
-            font-size: 4rem;
-            margin: 1rem 0;
-        }
-        
-        .advice-card {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            border-left: 4px solid #667eea;
-        }
-        
-        .btn {
-            background: #667eea;
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            margin: 0.5rem;
-            transition: transform 0.2s;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .coins-result {
-            font-family: monospace;
-            font-size: 1.2rem;
-            margin: 1rem 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
         <h1>🎴 Книга Перемен</h1>
-        <p>Древняя китайская мудрость для современных вопросов</p>
-        
-        <div class="advice-card" id="adviceCard">
-            <div class="hexagram-symbol" id="hexagramSymbol">⚪</div>
-            <h3 id="hexagramName">Гексаграмма дня</h3>
-            <p id="adviceText">Нажмите кнопку, чтобы получить совет древней мудрости</p>
+        <div id="hexagram-result">
+            <p>Нажмите кнопку для получения гексаграммы</p>
         </div>
-        
-        <button class="btn" onclick="getHexagram()">
-            🎯 Получить гексаграмму
-        </button>
-        
-        <button class="btn" onclick="castCoins()">
-            🪙 Бросить монеты
-        </button>
-        
-        <button class="btn" onclick="getAdvice()">
-            💫 Случайный совет
-        </button>
+        <button onclick="getRandomHexagram()">Получить гексаграмму</button>
+        <br><br>
+        <a href="/">← Назад к главной</a>
     </div>
 
-    <script src="/static/iching.js"></script>
+    <script>
+    async function getRandomHexagram() {
+        try {
+            const response = await fetch('/api/iching/random');
+            const data = await response.json();
+            
+            document.getElementById('hexagram-result').innerHTML = `
+                <h2>${data.number}. ${data.name}</h2>
+                <p><strong>Значение:</strong> ${data.meaning}</p>
+                <p><strong>Совет:</strong> ${data.advice}</p>
+            `;
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+    </script>
 </body>
 </html>
