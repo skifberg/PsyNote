@@ -1,0 +1,37 @@
+[
+  {
+    "item_id": "IPIP_EXT_01",
+    "text": "Я тот, кто всегда полон энергии.",
+    "domain": "extraversion",
+    "facet": "activity_level",
+    "keyed": "plus"
+  },
+  {
+    "item_id": "IPIP_EXT_02", 
+    "text": "Я тот, кто легко нахожу общий язык с незнакомцами.",
+    "domain": "extraversion",
+    "facet": "sociability",
+    "keyed": "plus"
+  },
+  {
+    "item_id": "IPIP_AGR_01",
+    "text": "Я тот, кто сочувствую чувствам других людей.",
+    "domain": "agreeableness",
+    "facet": "empathy",
+    "keyed": "plus"
+  },
+  {
+    "item_id": "IPIP_CON_01",
+    "text": "Я тот, кто всегда готов.",
+    "domain": "conscientiousness",
+    "facet": "self_efficacy",
+    "keyed": "plus"
+  },
+  {
+    "item_id": "IPIP_NEU_01",
+    "text": "Я тот, кто часто испытываю беспокойство без видимой причины.",
+    "domain": "neuroticism",
+    "facet": "anxiety",
+    "keyed": "plus"
+  }
+]

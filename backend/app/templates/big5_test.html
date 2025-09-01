@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест личности Big Five | PsyNote</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Тест личности Big Five</h1>
+        <div id="test-container">
+            <div id="question-card" class="card">
+                <h2 id="question-text">Загрузка вопроса...</h2>
+                <div id="options-container"></div>
+                <button id="next-btn" onclick="nextQuestion()" disabled>Далее</button>
+            </div>
+            <div id="results-container" class="card" style="display: none;">
+                <h2>Ваши результаты</h2>
+                <div id="results-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUserID = Math.floor(Math.random() * 1000000);
+        let currentQuestion = null;
+        let currentScore = null;
+
+        // Загрузка первого вопроса
+        window.onload = async function() {
+            await loadQuestion();
+        }
+
+        async function loadQuestion() {
+            try {
+                const response = await fetch(`/api/big5/next_question/${currentUserID}`);
+                const data = await response.json();
+                
+                if (data.status === "completed") {
+                    showResults();
+                    return;
+                }
+
+                currentQuestion = data;
+                document.getElementById('question-text').textContent = data.text;
+                
+                const optionsContainer = document.getElementById('options-container');
+                optionsContainer.innerHTML = '';
+                
+                data.options.forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = option.text;
+                    btn.onclick = () => selectOption(option.score);
+                    optionsContainer.appendChild(btn);
+                });
+                
+            } catch (error) {
+                console.error('Ошибка загрузки вопроса:', error);
+            }
+        }
+
+        function selectOption(score) {
+            currentScore = score;
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        async function nextQuestion() {
+            if (currentScore === null) return;
+            
+            // Сохраняем ответ
+            await fetch('/api/big5/response', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: currentUserID,
+                    item_id: currentQuestion.item_id,
+                    score: currentScore
+                })
+            });
+            
+            currentScore = null;
+            document.getElementById('next-btn').disabled = true;
+            await loadQuestion();
+        }
+
+        async function showResults() {
+            const response = await fetch(`/api/big5/results/${currentUserID}`);
+            const results = await response.json();
+            
+            // Показываем результаты
+            document.getElementById('question-card').style.display = 'none';
+            document.getElementById('results-container').style.display = 'block';
+            
+            // Визуализация результатов
+            document.getElementById('results-chart').innerHTML = 
+                `<pre>${JSON.stringify(results, null, 2)}</pre>`;
+        }
+    </script>
+</body>
+</html>
