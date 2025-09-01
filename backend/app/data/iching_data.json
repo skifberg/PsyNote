@@ -3,45 +3,515 @@
     {
       "number": 1,
       "name": "Цянь / Творчество",
-      "symbol": "䷀",
-      "meaning": "Сила творчества, инициатива, активная мужская энергия. Благоприятствует persistence и решительным действиям.",
-      "advice": "Сейчас время действовать смело и уверенно. Ваша энергия на пике — используйте её для начала нового дела."
+      "chinese_name": "乾",
+      "pinyin": "Qián",
+      "meaning": "Созидательная сила, небесная энергия, активное начало",
+      "interpretation": "Благоприятное время для новых начинаний. Проявляйте инициативу и силу воли. Как небо, которое постоянно в движении - будьте активны и целеустремленны."
     },
     {
       "number": 2,
-      "name": "Кунь / Исполнение", 
-      "symbol": "䷁",
-      "meaning": "Восприимчивость, терпение, пассивная женская энергия. Умение ждать и принимать.",
-      "advice": "Наберитесь терпения. Иногда бездействие — лучшее действие. Умейте слушать и принимать."
+      "name": "Кунь / Исполнение",
+      "chinese_name": "坤",
+      "pinyin": "Kūn",
+      "meaning": "Восприимчивость, земная энергия, пассивное начало",
+      "interpretation": "Время терпения и принятия. Будьте восприимчивы как земля. Не сопротивляйтесь, а адаптируйтесь к обстоятельствам. Проявляйте заботу и поддержку."
     },
     {
       "number": 3,
       "name": "Чжунь / Начальные трудности",
-      "symbol": "䷂",
-      "meaning": "Трудности в начале дела. Необходимость осторожности и подготовки.",
-      "advice": "Начало пути редко бывает гладким. Проверьте готовность к действиям, но не отказывайтесь от замысла."
+      "chinese_name": "屯",
+      "pinyin": "Zhūn",
+      "meaning": "Трудности в начале, накопление сил",
+      "interpretation": "Первые шаги всегда трудны. Не торопитесь, накапливайте силы. Как росток, пробивающийся сквозь землю - требуется время и терпение."
     },
     {
       "number": 4,
       "name": "Мэн / Неведение",
-      "symbol": "䷃",
-      "meaning": "Неопытность, глупость, необходимость учиться.",
-      "advice": "Не бойтесь признать незнание. Сейчас время учиться и искать мудрых наставников."
+      "chinese_name": "蒙",
+      "pinyin": "Méng",
+      "meaning": "Невежество, молодость, потребность в обучении",
+      "interpretation": "Время учиться и seeking guidance. Признайте свое неведение и будьте открыты к знаниям. Найдите мудрого наставника."
     },
     {
       "number": 5,
       "name": "Сюй / Необходимость ждать",
-      "symbol": "䷄", 
-      "meaning": "Ожидание, подготовка, терпение перед действием.",
-      "advice": "Как дождь, который вот-вот прольётся на сухую землю. Ждите — подходящий момент приближается."
+      "chinese_name": "需",
+      "pinyin": "Xū",
+      "meaning": "Ожидание, подготовка, терпение",
+      "interpretation": "Время ожидания и подготовки. Не торопите события. Как дождь, который вот-вот прольется - будьте готовы, но не действуйте преждевременно."
+    },
+    {
+      "number": 6,
+      "name": "Сун / Конфликт",
+      "chinese_name": "讼",
+      "pinyin": "Sòng",
+      "meaning": "Спор, конфликт, судебное разбирательство",
+      "interpretation": "Избегайте ненужных конфликтов. Если спор不可避免, ищите справедливого посредника. Лучше отступить, чем engage в разрушительный конфликт."
+    },
+    {
+      "number": 7,
+      "name": "Ши / Войско",
+      "chinese_name": "师",
+      "pinyin": "Shī",
+      "meaning": "Армия, дисциплина, организация",
+      "interpretation": "Время discipline и организации. Действуйте методично и под руководством опытного лидера. Важны единство и четкая структура."
+    },
+    {
+      "number": 8,
+      "name": "Би / Приближение",
+      "chinese_name": "比",
+      "pinyin": "Bǐ",
+      "meaning": "Единение, сотрудничество, союз",
+      "interpretation": "Время объединения и сотрудничества. Ищите союзников и создавайте прочные связи. Взаимная поддержка принесет успех."
+    },
+    {
+      "number": 9,
+      "name": "Сяо Чу / Воспитание малым",
+      "chinese_name": "小畜",
+      "pinyin": "Xiǎo Chù",
+      "meaning": "Накопление малого, временная задержка",
+      "interpretation": "Медленное накопление сил. Небольшие препятствия на пути. Проявляйте терпение - большие изменения требуют времени."
+    },
+    {
+      "number": 10,
+      "name": "Ли / Наступление",
+      "chinese_name": "履",
+      "pinyin": "Lǚ",
+      "meaning": "Поведение, осторожное движение",
+      "interpretation": "Двигайтесь осторожно и respectfully. Как walking on tiger's tail - будьте внимательны к каждому шагу. Правильное поведение приведет к успеху."
+    },
+    {
+      "number": 11,
+      "name": "Тай / Расцвет",
+      "chinese_name": "泰",
+      "pinyin": "Tài",
+      "meaning": "Мир, процветание, гармония",
+      "interpretation": "Время гармонии и процветания. Небо и земля в единстве. Благоприятный период для любых начинаний. Наслаждайтесь миром."
+    },
+    {
+      "number": 12,
+      "name": "Пи / Застой",
+      "chinese_name": "否",
+      "pinyin": "Pǐ",
+      "meaning": "Стагнация, разобщенность, застой",
+      "interpretation": "Время застоя и разобщенности. Небеса и земля разделены. Не начинайте новых дел. Сохраняйте внутреннюю integrity и ждите изменений."
+    },
+    {
+      "number": 13,
+      "name": "Тун Жэнь / Общение с людьми",
+      "chinese_name": "同人",
+      "pinyin": "Tóng Rén",
+      "meaning": "Единение людей, сообщество",
+      "interpretation": "Время объединения с like-minded людьми. Ищите общие цели и values. Совместными усилиями можно достичь великого."
+    },
+    {
+      "number": 14,
+      "name": "Да Ю / Великое обладание",
+      "chinese_name": "大有",
+      "pinyin": "Dà Yǒu",
+      "meaning": "Большое владение, изобилие",
+      "interpretation": "Время изобилия и prosperity. Но с великим богатством приходит great responsibility. Будьте щедры и справедливы."
+    },
+    {
+      "number": 15,
+      "name": "Цянь / Смирение",
+      "chinese_name": "谦",
+      "pinyin": "Qiān",
+      "meaning": "Скромность, умеренность, смирение",
+      "interpretation": "Сила в смирении. Как гора, скрытая в земле - true worth не нуждается во внешних проявлениях. Будьте modest и respectful."
+    },
+    {
+      "number": 16,
+      "name": "Юй / Вольность",
+      "chinese_name": "豫",
+      "pinyin": "Yù",
+      "meaning": "Энтузиазм, радость, готовность",
+      "interpretation": "Время энтузиазма и радости. Подходящий момент для действий. Но maintain discipline чтобы энтузиазм не превратился в frivolity."
+    },
+    {
+      "number": 17,
+      "name": "Суй / Последование",
+      "chinese_name": "随",
+      "pinyin": "Suí",
+      "meaning": "Следование, адаптация, гибкость",
+      "interpretation": "Время следовать естественному flow. Будьте гибки и adaptive. Как вода, которая следует contours земли - adapt к обстоятельствам."
+    },
+    {
+      "number": 18,
+      "name": "Гу / Исправление порчи",
+      "chinese_name": "蛊",
+      "pinyin": "Gǔ",
+      "meaning": "Разложение, реформа, исправление",
+      "interpretation": "Время исправлять то, что пришло в упадок. Необходимы решительные reforms. Устраняйте corruption и восстанавливайте order."
+    },
+    {
+      "number": 19,
+      "name": "Линь / Приближение",
+      "chinese_name": "临",
+      "pinyin": "Lín",
+      "meaning": "Приближение, надзор, inspection",
+      "interpretation": "Сила приближается. Время наблюдать и готовиться к action. Будьте attentive и responsive к approaching opportunities."
+    },
+    {
+      "number": 20,
+      "name": "Гуань / Созерцание",
+      "chinese_name": "观",
+      "pinyin": "Guān",
+      "meaning": "Наблюдение, reflection, contemplation",
+      "interpretation": "Время наблюдать и reflect. Step back чтобы увидеть bigger picture. Через contemplation приходит understanding."
+    },
+    {
+      "number": 21,
+      "name": "Ши Хэ / Соединение",
+      "chinese_name": "噬嗑",
+      "pinyin": "Shì Kè",
+      "meaning": "Biting through, resolution, decision",
+      "interpretation": "Время решительных действий. Как biting through препятствие - будьте direct и решительны. Разрешайте conflicts ясно и справедливо."
+    },
+    {
+      "number": 22,
+      "name": "Би / Украшение",
+      "chinese_name": "贲",
+      "pinyin": "Bì",
+      "meaning": "Grace, beauty, decoration",
+      "interpretation": "Время украшать и облагораживать. Но помните - true beauty внутри. Внешнее elegance должно отражать внутреннюю integrity."
+    },
+    {
+      "number": 23,
+      "name": "Бо / Разрушение",
+      "chinese_name": "剥",
+      "pinyin": "Bō",
+      "meaning": "Splitting apart, decay, erosion",
+      "interpretation": "Время упадка и разрушения. Неблагоприятно для новых начинаний. Сохраняйте то, что еще цело, и ждите renewal."
+    },
+    {
+      "number": 24,
+      "name": "Фу / Возвращение",
+      "chinese_name": "复",
+      "pinyin": "Fù",
+      "meaning": "Return, turnaround, renewal",
+      "interpretation": "После упадка приходит renewal. Как поворот солнцестояния - light возвращается. Благоприятное время для новых начинаний."
+    },
+    {
+      "number": 25,
+      "name": "У Ван / Невинность",
+      "chinese_name": "无妄",
+      "pinyin": "Wú Wàng",
+      "meaning": "Innocence, spontaneity, naturalness",
+      "interpretation": "Действуйте с innocence и spontaneity. Как ребенок - естественно и без calculation. Не force things, позвольте им unfold naturally."
+    },
+    {
+      "number": 26,
+      "name": "Да Чу / Воспитание великого",
+      "chinese_name": "大畜",
+      "pinyin": "Dà Chù",
+      "meaning": "Great accumulation, restraint, storage",
+      "interpretation": "Время накопления great сил. Practice restraint и accumulation. Как storing grain на зиму - готовьтесь к future challenges."
+    },
+    {
+      "number": 27,
+      "name": "И / Питание",
+      "chinese_name": "颐",
+      "pinyin": "Yí",
+      "meaning": "Nourishment, care, provision",
+      "interpretation": "Время заботы и nourishment. Заботьтесь о себе и others. Proper nourishment - foundation здоровья и prosperity."
+    },
+    {
+      "number": 28,
+      "name": "Да Го / Преобладание великого",
+      "chinese_name": "大过",
+      "pinyin": "Dà Guò",
+      "meaning": "Great preponderance, crisis, overload",
+      "interpretation": "Время great pressure и crisis. Как overloaded beam - требуется radical action. Необходимы courage и innovation."
+    },
+    {
+      "number": 29,
+      "name": "Кань / Бездна",
+      "chinese_name": "坎",
+      "pinyin": "Kǎn",
+      "meaning": "Abyss, danger, water",
+      "interpretation": "Опасность и трудности. Как water, которое заполняет все пустоты - будьте осторожны. Maintain inner integrity чтобы пройти через трудности."
+    },
+    {
+      "number": 30,
+      "name": "Ли / Ясность",
+      "chinese_name": "离",
+      "pinyin": "Lí",
+      "meaning": "Clarity, illumination, fire",
+      "interpretation": "Ясность и illumination. Как fire, который освещает - приносит understanding и clarity. Благоприятно для learning и insight."
+    },
+          {
+      "number": 31,
+      "name": "Сянь / Взаимодействие",
+      "chinese_name": "咸",
+      "pinyin": "Xián",
+      "meaning": "Influence, attraction, interaction",
+      "interpretation": "Взаимное influence и attraction. Естественное drawing together. Благоприятно для relationships и partnerships."
+    },
+    {
+      "number": 32,
+      "name": "Хэн / Постоянство",
+      "chinese_name": "恒",
+      "pinyin": "Héng",
+      "meaning": "Duration, perseverance, constancy",
+      "interpretation": "Время persistence и endurance. Как steady movement - maintain consistent effort. Постоянство приводит к success."
+    },
+    {
+      "number": 33,
+      "name": "Дунь / Бегство",
+      "chinese_name": "遁",
+      "pinyin": "Dùn",
+      "meaning": "Retreat, withdrawal, strategic withdrawal",
+      "interpretation": "Strategic retreat. Иногда withdrawal - это мудрость. Wait for more favorable conditions. Не engage в бесполезную борьбу."
+    },
+    {
+      "number": 34,
+      "name": "Да Чжуан / Мощь великого",
+      "chinese_name": "大壮",
+      "pinyin": "Dà Zhuàng",
+      "meaning": "Great power, strength, advance",
+      "interpretation": "Great сила и power. Но сила должна быть tempered with wisdom. Avoid arrogance и используйте силу справедливо."
+    },
+    {
+      "number": 35,
+      "name": "Цзинь / Прогресс",
+      "chinese_name": "晋",
+      "pinyin": "Jìn",
+      "meaning": "Progress, advancement, expansion",
+      "interpretation": "Время progress и advancement. Как rising sun - двигайтесь forward с confidence. Благоприятно для career и growth."
+    },
+    {
+      "number": 36,
+      "name": "Мин И / Поражение света",
+      "chinese_name": "明夷",
+      "pinyin": "Míng Yí",
+      "meaning": "Darkening of light, adversity, challenge",
+      "interpretation": "Light затемнен. Время adversity. Maintain inner light во тьме. Будьте discreet и wait for better times."
+    },
+    {
+      "number": 37,
+      "name": "Цзя Жэнь / Семья",
+      "chinese_name": "家人",
+      "pinyin": "Jiā Rén",
+      "meaning": "Family, household, domestic harmony",
+      "interpretation": "Гармония в family и relationships. Proper roles и mutual respect создают harmony. Основа stability - в strong family."
+    },
+    {
+      "number": 38,
+      "name": "Куй / Противоположность",
+      "chinese_name": "睽",
+      "pinyin": "Kuí",
+      "meaning": "Opposition, divergence, misunderstanding",
+      "interpretation": "Разногласия и opposition. Небольшие differences могут привести к misunderstanding. Ищите common ground."
+    },
+    {
+      "number": 39,
+      "name": "Цзянь / Препятствие",
+      "chinese_name": "蹇",
+      "pinyin": "Jiǎn",
+      "meaning": "Obstruction, difficulty, challenge",
+      "interpretation": "Препятствия на пути. Время caution. Как water, встречающее mountain - ищите обходные пути. Проявите perseverance."
+    },
+    {
+      "number": 40,
+      "name": "Се / Разрешение",
+      "chinese_name": "解",
+      "pinyin": "Xiè",
+      "meaning": "Deliverance, release, solution",
+      "interpretation": "Разрешение трудностей. Как rain после drought - облегчение приходит. Время action и movement forward."
+    },
+    {
+      "number": 41,
+      "name": "Сунь / Уменьшение",
+      "chinese_name": "损",
+      "pinyin": "Sǔn",
+      "meaning": "Decrease, reduction, simplification",
+      "interpretation": "Время decrease и simplification. Убирайте лишнее. Как уменьшение ради увеличения - иногда less is more."
+    },
+    {
+      "number": 42,
+      "name": "И / Приумножение",
+      "chinese_name": "益",
+      "pinyin": "Yì",
+      "meaning": "Increase, benefit, expansion",
+      "interpretation": "Приумножение и benefit. Благоприятное время для growth и expansion. Щедрость приносит abundance."
+    },
+    {
+      "number": 43,
+      "name": "Гуай / Прорыв",
+      "chinese_name": "夬",
+      "pinyin": "Guài",
+      "meaning": "Breakthrough, resolution, decision",
+      "interpretation": "Решительный breakthrough. Требуется ясность и determination. Решайте issues openly и decisively."
+    },
+    {
+      "number": 44,
+      "name": "Гоу / Встреча",
+      "chinese_name": "姤",
+      "pinyin": "Gòu",
+      "meaning": "Coming to meet, encounter, influence",
+      "interpretation": "Неожиданная встреча или influence. Будьте cautious о новых influences. Не позволяйте малым things расти в большие problems."
+    },
+    {
+      "number": 45,
+      "name": "Цуй / Воссоединение",
+      "chinese_name": "萃",
+      "pinyin": "Cuì",
+      "meaning": "Gathering together, assembly, convergence",
+      "interpretation": "Время gathering и assembly. Люди объединяются для common purpose. Благоприятно для community и collaboration."
+    },
+    {
+      "number": 46,
+      "name": "Шэн / Подъем",
+      "chinese_name": "升",
+      "pinyin": "Shēng",
+      "meaning": "Pushing upward, growth, advancement",
+      "interpretation": "Постепенный рост и advancement. Как tree, растущее медленно но верно - steady progress приводит к success."
+    },
+    {
+      "number": 47,
+      "name": "Кунь / Истощение",
+      "chinese_name": "困",
+      "pinyin": "Kùn",
+      "meaning": "Oppression, exhaustion, adversity",
+      "interpretation": "Время exhaustion и hardship. Maintain hope и integrity. Как water, исчезающее под землей - трудности временны."
+    },
+    {
+      "number": 48,
+      "name": "Цзин / Колодец",
+      "chinese_name": "井",
+      "pinyin": "Jǐng",
+      "meaning": "Well, source, nourishment",
+      "interpretation": "Источник nourishment и wisdom. Как колодец - обеспечивает essential needs. Заботьтесь о источниках своего sustenance."
+    },
+    {
+      "number": 49,
+      "name": "Гэ / Перемены",
+      "chinese_name": "革",
+      "pinyin": "Gé",
+      "meaning": "Revolution, change, transformation",
+      "interpretation": "Radical change и transformation. Как смена seasons - необходимость renewal. Будьте готовы к fundamental changes."
+    },
+    {
+      "number": 50,
+      "name": "Дин / Котел",
+      "chinese_name": "鼎",
+      "pinyin": "Dǐng",
+      "meaning": "Cauldron, transformation, nourishment",
+      "interpretation": "Transformation и refinement. Как котел, превращающий raw ingredients в nourishment - преобразуйте resources во что-то ценное."
+    },
+    {
+      "number": 51,
+      "name": "Чжэнь / Возбуждение",
+      "chinese_name": "震",
+      "pinyin": "Zhèn",
+      "meaning": "Shock, thunder, awakening",
+      "interpretation": "Внезапный shock или awakening. Как гром - пугающий но приносящий rain. Шок может привести к renewal и awakening."
+    },
+    {
+      "number": 52,
+      "name": "Гэнь / Сосредоточение",
+      "chinese_name": "艮",
+      "pinyin": "Gèn",
+      "meaning": "Stillness, meditation, stopping",
+      "interpretation": "Время stillness и meditation. Как mountain - будьте неподвижны и centered. Иногда stopping - это progress."
+    },
+    {
+      "number": 53,
+      "name": "Цзянь / Постепенное развитие",
+      "chinese_name": "渐",
+      "pinyin": "Jiàn",
+      "meaning": "Gradual progress, development, growth",
+      "interpretation": "Постепенное development и progress. Как tree, растущее медленно - steady advancement приводит к lasting results."
+    },
+    {
+      "number": 54,
+      "name": "Гуй Мэй / Невеста",
+      "chinese_name": "归妹",
+      "pinyin": "Guī Mèi",
+      "meaning": "Marrying maiden, union, relationship",
+      "interpretation": "Union или relationship. Но возможны improprieties. Будьте mindful о правильных relationships и commitments."
+    },
+    {
+      "number": 55,
+      "name": "Фэн / Изобилие",
+      "chinese_name": "丰",
+      "pinyin": "Fēng",
+      "meaning": "Abundance, fullness, prosperity",
+      "interpretation": "Great abundance и fullness. Но abundance требует moderation. Как полная луна - наслаждайтесь но готовьтесь к change."
+    },
+    {
+      "number": 56,
+      "name": "Люй / Странствие",
+      "chinese_name": "旅",
+      "pinyin": "Lǚ",
+      "meaning": "Travel, journey, wandering",
+      "interpretation": "Время travel или journey. Будьте adaptable как странник. Maintain humility и respect в unfamiliar surroundings."
+    },
+    {
+      "number": 57,
+      "name": "Сунь / Утонченность",
+      "chinese_name": "巽",
+      "pinyin": "Xùn",
+      "meaning": "Gentleness, penetration, adaptability",
+      "interpretation": "Gentle penetration и influence. Как wind - незаметно но powerfully. Гибкость и adaptability приносят success."
+    },
+    {
+      "number": 58,
+      "name": "Дуй / Радость",
+      "chinese_name": "兑",
+      "pinyin": "Duì",
+      "meaning": "Joy, pleasure, satisfaction",
+      "interpretation": "Радость и pleasure. Как lake - отражает beauty и приносит joy. Наслаждайтесь но избегайте excess."
+    },
+    {
+      "number": 59,
+      "name": "Хуань / Развеивание",
+      "chinese_name": "涣",
+      "pinyin": "Huàn",
+      "meaning": "Dispersion, dissolution, release",
+      "interpretation": "Dispersion и release. Как ice, тающий в water - barriers dissolve. Время letting go и moving on."
+    },
+    {
+      "number": 60,
+      "name": "Цзе / Ограничение",
+      "chinese_name": "节",
+      "pinyin": "Jié",
+      "meaning": "Limitation, moderation, restraint",
+      "interpretation": "Время moderation и restraint. Как water, ограниченное берегами - установите proper limits. Умеренность обеспечивает stability."
+    },
+    {
+      "number": 61,
+      "name": "Чжун Фу / Внутренняя правда",
+      "chinese_name": "中孚",
+      "pinyin": "Zhōng Fú",
+      "meaning": "Inner truth, sincerity, authenticity",
+      "interpretation": "Inner truth и sincerity. Как empty boat - open и receptive. Искренность приносит trust и connection."
+    },
+    {
+      "number": 62,
+      "name": "Сяо Го / Преобладание малого",
+      "chinese_name": "小过",
+      "pinyin": "Xiǎo Guò",
+      "meaning": "Small excess, minor error, caution",
+      "interpretation": "Небольшие excesses или errors. Будьте cautious о мелких mistakes. Small adjustments предотвращают big problems."
+    },
+    {
+      "number": 63,
+      "name": "Цзи Цзи / После завершения",
+      "chinese_name": "既济",
+      "pinyin": "Jì Jì",
+      "meaning": "After completion, fulfillment, caution",
+      "interpretation": "После completion. Кажется что все закончено, но remain vigilant. Как crossing river - будьте careful даже near shore."
+    },
+    {
+      "number": 64,
+      "name": "Вэй Цзи / Перед завершением",
+      "chinese_name": "未济",
+      "pinyin": "Wèi Jì",
+      "meaning": "Before completion, unfinished, potential",
+      "interpretation": "Перед completion. Things не совсем готовы. Как young fox почти crossing river - будьте cautious в final steps."
     }
-  ],
-  "general_advices": [
-    "Тот, кто сейчас читает это сообщение, уже на правильном пути обучения.",
-    "Сегодняшнее беспокойство — завтрашняя мудрость.",
-    "Иногда нужно заблудиться, чтобы найти верный путь.",
-    "Тишина — лучший ответ на многие вопросы.",
-    "Доверьтесь течению жизни — оно знает куда нести.",
-    "Маленькие шаги тоже ведут к великим целям."
   ]
 }
+  
