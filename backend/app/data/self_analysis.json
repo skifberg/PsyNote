@@ -1,49 +1,52 @@
-from fastapi import APIRouter, HTTPException
-import json
-from pathlib import Path
-
-router = APIRouter(prefix="/api/self-analysis", tags=["self_analysis"])
-
-def load_self_analysis_data():
-    """Загрузка данных модуля самоанализа"""
-    try:
-        data_path = Path(__file__).parent.parent / "data" / "self_analysis.json"
-        with open(data_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        # Возвращаем демо-данные если файл не найден
-        return {
-            "modules": [
-                {
-                    "id": "demo",
-                    "name": "Демо-модуль",
-                    "description": "Пример модуля самоанализа",
-                    "techniques": []
-                }
-            ]
+{
+  "modules": [
+    {
+      "id": "reflection",
+      "name": "Рефлексия",
+      "description": "Техники для самоанализа и размышлений",
+      "techniques": [
+        {
+          "id": "daily_questions",
+          "name": "Ежедневные вопросы",
+          "description": "Вопросы для ежедневной рефлексии",
+          "questions": [
+            "Что я чувствую прямо сейчас?",
+            "Что вызвало у меня улыбку сегодня?",
+            "Что я хотел бы изменить в завтрашнем дне?",
+            "За что я благодарен сегодня?",
+            "Что я узнал нового о себе?"
+          ]
+        },
+        {
+          "id": "emotional_state",
+          "name": "Эмоциональное состояние",
+          "description": "Анализ текущих эмоций и чувств",
+          "questions": [
+            "Какие эмоции я испытываю в данный момент?",
+            "Что вызвало эти эмоции?",
+            "Как эти эмоции влияют на мои решения?",
+            "Что помогает мне регулировать эмоции?"
+          ]
         }
-
-@router.get("/modules")
-async def get_all_modules():
-    """Получить все модули самоанализа"""
-    return load_self_analysis_data()
-
-@router.get("/module/{module_id}")
-async def get_module(module_id: str):
-    """Получить конкретный модуль по ID"""
-    data = load_self_analysis_data()
-    for module in data['modules']:
-        if module['id'] == module_id:
-            return module
-    raise HTTPException(status_code=404, detail="Модуль не найден")
-
-@router.get("/technique/{module_id}/{technique_id}")
-async def get_technique(module_id: str, technique_id: str):
-    """Получить конкретную технику"""
-    data = load_self_analysis_data()
-    for module in data['modules']:
-        if module['id'] == module_id:
-            for technique in module['techniques']:
-                if technique['id'] == technique_id:
-                    return technique
-    raise HTTPException(status_code=404, detail="Техника не найдена")
+      ]
+    },
+    {
+      "id": "goals",
+      "name": "Цели и планы",
+      "description": "Техники для постановки и анализа целей",
+      "techniques": [
+        {
+          "id": "weekly_review",
+          "name": "Недельный обзор",
+          "description": "Вопросы для анализа прошедшей недели",
+          "questions": [
+            "Что я достиг на этой неделе?",
+            "Что я мог сделать лучше?",
+            "Какие уроки я извлек?",
+            "Какие цели на следующую неделю?"
+          ]
+        }
+      ]
+    }
+  ]
+}
