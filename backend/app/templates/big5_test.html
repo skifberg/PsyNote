@@ -3,100 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест личности Big Five | PsyNote</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Тест личности Big Five - PSYNOTE</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1.2em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .react-root {
+            min-height: 500px;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Тест личности Big Five</h1>
-        <div id="test-container">
-            <div id="question-card" class="card">
-                <h2 id="question-text">Загрузка вопроса...</h2>
-                <div id="options-container"></div>
-                <button id="next-btn" onclick="nextQuestion()" disabled>Далее</button>
+        <div class="header">
+            <h1>Тест личности Big Five</h1>
+            <p>Откройте для себя ваш уникальный личностный профиль</p>
+        </div>
+        
+        <div class="content">
+            <div id="react-root">
+                <div class="loading">
+                    <p>Загрузка теста...</p>
+                </div>
             </div>
-            <div id="results-container" class="card" style="display: none;">
-                <h2>Ваши результаты</h2>
-                <div id="results-chart"></div>
-            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 PSYNOTE. Все права защищены.</p>
         </div>
     </div>
 
-    <script>
-        let currentUserID = Math.floor(Math.random() * 1000000);
-        let currentQuestion = null;
-        let currentScore = null;
+    <!-- React и ReactDOM из CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel для JSX трансформации -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Наш компонент -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-        // Загрузка первого вопроса
-        window.onload = async function() {
-            await loadQuestion();
+        // Базовый URL для API
+        const API_BASE_URL = 'http://localhost:8000';
+
+        // Компонент вопроса
+        function Question({ question, currentAnswer, onAnswer }) {
+            const labels = {
+                1: "Категорически не согласен",
+                2: "Скорее не согласен",
+                3: "Ни да ни нет",
+                4: "Скорее согласен", 
+                5: "Полностью согласен"
+            };
+
+            const handleAnswerChange = (value) => {
+                onAnswer(question.id, value);
+            };
+
+            return React.createElement('div', { className: 'question-card' },
+                React.createElement('h3', { className: 'question-text' }, question.text),
+                React.createElement('div', { className: 'likert-scale' },
+                    [1, 2, 3, 4, 5].map(value =>
+                        React.createElement('label', { 
+                            key: value, 
+                            className: 'likert-item',
+                            onClick: () => handleAnswerChange(value)
+                        },
+                            React.createElement('input', {
+                                type: 'radio',
+                                name: `question-${question.id}`,
+                                value: value,
+                                checked: currentAnswer === value,
+                                onChange: () => handleAnswerChange(value)
+                            }),
+                            React.createElement('span', { className: 'radio-custom' }),
+                            React.createElement('span', { className: 'label-text' }, labels[value])
+                        )
+                    )
+                )
+            );
         }
 
-        async function loadQuestion() {
-            try {
-                const response = await fetch(`/api/big5/next_question/${currentUserID}`);
-                const data = await response.json();
-                
-                if (data.status === "completed") {
-                    showResults();
-                    return;
+        // Компонент результатов
+        function Results({ data, onRestart }) {
+            const factorNames = {
+                E: { name: 'Экстраверсия', color: '#4CAF50' },
+                A: { name: 'Доброжелательность', color: '#2196F3' },
+                C: { name: 'Добросовестность', color: '#FF9800' },
+                N: { name: 'Нейротизм', color: '#F44336' },
+                O: { name: 'Открытость опыту', color: '#9C27B0' }
+            };
+
+            const getLevelLabel = (level) => {
+                switch (level) {
+                    case 'high': return 'Высокий';
+                    case 'medium': return 'Средний';
+                    case 'low': return 'Низкий';
+                    default: return level;
                 }
+            };
 
-                currentQuestion = data;
-                document.getElementById('question-text').textContent = data.text;
+            return React.createElement('div', { className: 'results-container' },
+                React.createElement('div', { className: 'results-header' },
+                    React.createElement('h2', null, 'Ваши результаты теста Big Five'),
+                    React.createElement('p', null, 'Вот ваш личностный профиль по пяти основным факторам:')
+                ),
                 
-                const optionsContainer = document.getElementById('options-container');
-                optionsContainer.innerHTML = '';
+                React.createElement('div', { className: 'results-grid' },
+                    Object.entries(data.interpretation).map(([factor, factorData]) =>
+                        React.createElement('div', { 
+                            key: factor, 
+                            className: 'factor-card',
+                            style: { borderLeftColor: factorNames[factor].color }
+                        },
+                            React.createElement('div', { className: 'factor-header' },
+                                React.createElement('h3', { 
+                                    style: { color: factorNames[factor].color }
+                                }, factorNames[factor].name),
+                                React.createElement('span', { 
+                                    className: `level-badge level-${factorData.level}`
+                                }, getLevelLabel(factorData.level))
+                            ),
+                            
+                            React.createElement('div', { className: 'score-display' },
+                                React.createElement('div', { className: 'score-value' },
+                                    `${factorData.score} / ${factorData.max_score}`
+                                ),
+                                React.createElement('div', { className: 'score-bar' },
+                                    React.createElement('div', { 
+                                        className: 'score-fill',
+                                        style: { 
+                                            width: `${(factorData.score / factorData.max_score) * 100}%`,
+                                            backgroundColor: factorNames[factor].color
+                                        }
+                                    })
+                                )
+                            ),
+                            
+                            React.createElement('div', { className: 'interpretation' },
+                                React.createElement('p', null, factorData.interpretation)
+                            )
+                        )
+                    )
+                ),
                 
-                data.options.forEach(option => {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.textContent = option.text;
-                    btn.onclick = () => selectOption(option.score);
-                    optionsContainer.appendChild(btn);
-                });
-                
-            } catch (error) {
-                console.error('Ошибка загрузки вопроса:', error);
+                React.createElement('div', { className: 'results-actions' },
+                    React.createElement('button', { 
+                        onClick: onRestart,
+                        className: 'restart-button'
+                    }, 'Пройти тест снова'),
+                    React.createElement('button', { 
+                        onClick: () => window.print(),
+                        className: 'print-button'
+                    }, 'Распечатать результаты')
+                )
+            );
+        }
+
+        // Главный компонент
+        function B5Test() {
+            const [questions, setQuestions] = useState([]);
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [isLoading, setIsLoading] = useState(true);
+            const [showResults, setShowResults] = useState(false);
+            const [results, setResults] = useState(null);
+            const [error, setError] = useState(null);
+
+            useEffect(() => {
+                fetchQuestions();
+            }, []);
+
+            const fetchQuestions = async () => {
+                try {
+                    setIsLoading(true);
+                    const response = await fetch(`${API_BASE_URL}/api/b5-test/questions`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        setQuestions(data.questions);
+                        setError(null);
+                    } else {
+                        setError(data.message || 'Ошибка загрузки вопросов');
+                    }
+                } catch (error) {
+                    setError('Ошибка соединения с сервером');
+                    console.error('Error:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleAnswer = (questionId, answerValue) => {
+                setAnswers(prev => ({ ...prev, [questionId]: answerValue }));
+            };
+
+            const handleNext = () => {
+                if (currentQuestionIndex < questions.length - 1) {
+                    setCurrentQuestionIndex(prev => prev + 1);
+                }
+            };
+
+            const handlePrevious = () => {
+                if (currentQuestionIndex > 0) {
+                    setCurrentQuestionIndex(prev => prev - 1);
+                }
+            };
+
+            const handleSubmit = async () => {
+                try {
+                    setIsLoading(true);
+                    
+                    const answerArray = Object.entries(answers).map(([questionId, answerValue]) => ({
+                        questionId: parseInt(questionId),
+                        answerValue: answerValue
+                    }));
+
+                    const response = await fetch(`${API_BASE_URL}/api/b5-test/submit`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ answers: answerArray })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        setResults(data);
+                        setShowResults(true);
+                        setError(null);
+                    } else {
+                        setError(data.message || 'Ошибка обработки результатов');
+                    }
+                } catch (error) {
+                    setError('Ошибка отправки ответов');
+                    console.error('Error:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const restartTest = () => {
+                setCurrentQuestionIndex(0);
+                setAnswers({});
+                setShowResults(false);
+                setResults(null);
+                setError(null);
+                fetchQuestions();
+            };
+
+            if (isLoading && questions.length === 0) {
+                return React.createElement('div', { className: 'loading' },
+                    React.createElement('p', null, 'Загрузка вопросов...')
+                );
             }
+
+            if (error) {
+                return React.createElement('div', { className: 'error' },
+                    React.createElement('h3', null, 'Произошла ошибка'),
+                    React.createElement('p', null, error),
+                    React.createElement('button', { 
+                        onClick: fetchQuestions,
+                        className: 'retry-button'
+                    }, 'Попробовать снова')
+                );
+            }
+
+            if (showResults && results) {
+                return React.createElement(Results, { 
+                    data: results, 
+                    onRestart: restartTest 
+                });
+            }
+
+            const currentQuestion = questions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+            return React.createElement('div', { className: 'b5-test-container' },
+                React.createElement('div', { className: 'test-header' },
+                    React.createElement('h2', null, 'Тест личности Big Five'),
+                    React.createElement('div', { className: 'progress-info' },
+                        `Вопрос ${currentQuestionIndex + 1} из ${questions.length}`
+                    )
+                ),
+
+                React.createElement('div', { className: 'progress-bar' },
+                    React.createElement('div', { 
+                        className: 'progress-fill',
+                        style: { width: `${progress}%` }
+                    })
+                ),
+
+                currentQuestion && React.createElement(Question, {
+                    question: currentQuestion,
+                    currentAnswer: answers[currentQuestion.id] || null,
+                    onAnswer: handleAnswer
+                }),
+
+                React.createElement('div', { className: 'navigation-buttons' },
+                    React.createElement('button', { 
+                        onClick: handlePrevious,
+                        disabled: currentQuestionIndex === 0,
+                        className: 'nav-button prev-button'
+                    }, '← Назад'),
+                    
+                    currentQuestionIndex === questions.length - 1 ?
+                        React.createElement('button', { 
+                            onClick: handleSubmit,
+                            disabled: Object.keys(answers).length !== questions.length,
+                            className: 'nav-button submit-button'
+                        }, isLoading ? 'Обработка...' : 'Завершить тест') :
+                        React.createElement('button', { 
+                            onClick: handleNext,
+                            disabled: !answers[currentQuestion?.id],
+                            className: 'nav-button next-button'
+                        }, 'Далее →')
+                ),
+
+                React.createElement('div', { className: 'answers-progress' },
+                    `Отвечено: ${Object.keys(answers).length} / ${questions.length}`
+                )
+            );
         }
 
-        function selectOption(score) {
-            currentScore = score;
-            document.getElementById('next-btn').disabled = false;
-        }
-
-        async function nextQuestion() {
-            if (currentScore === null) return;
-            
-            // Сохраняем ответ
-            await fetch('/api/big5/response', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    user_id: currentUserID,
-                    item_id: currentQuestion.item_id,
-                    score: currentScore
-                })
-            });
-            
-            currentScore = null;
-            document.getElementById('next-btn').disabled = true;
-            await loadQuestion();
-        }
-
-        async function showResults() {
-            const response = await fetch(`/api/big5/results/${currentUserID}`);
-            const results = await response.json();
-            
-            // Показываем результаты
-            document.getElementById('question-card').style.display = 'none';
-            document.getElementById('results-container').style.display = 'block';
-            
-            // Визуализация результатов
-            document.getElementById('results-chart').innerHTML = 
-                `<pre>${JSON.stringify(results, null, 2)}</pre>`;
-        }
+        // Рендерим компонент
+        const root = ReactDOM.createRoot(document.getElementById('react-root'));
+        root.render(React.createElement(B5Test));
     </script>
 </body>
 </html>
