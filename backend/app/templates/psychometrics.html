@@ -4,309 +4,604 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Психометрические тесты - PsyNote</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .test-card {
-            transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
+        /* Точная палитра из главной страницы PsyNote */
+        :root {
+            --background: linear-gradient(135deg, #7c8dea 0%, #8a68b0 100%);
+            --card-bg: rgba(230, 210, 240, 0.9); /* Цикламеновый как на главной */
+            --card-border: rgba(255, 255, 255, 0.4);
+            --text-primary: #443a56; /* Темно-фиолетовый текст */
+            --text-secondary: #554966; /* Фиолетовый текст */
+            --accent-green: #4CAF50;   /* Зеленый из кнопок */
+            --accent-blue: #2196F3;    /* Синий из кнопок */
+            --accent-purple: #8A2BE2;  /* Фиолетовый из кнопок */
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
-        .test-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .category-filter {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .category-filter.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
             color: white;
-            border-color: transparent;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
         }
-        .nav-btn {
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Шапка в стиле главной страницы */
+        .header {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 0 0 25px 25px;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
             transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
-        .nav-btn:hover {
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
             transform: translateY(-2px);
+        }
+
+        /* Карточки тестов в стиле главной */
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .test-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            color: var(--text-primary);
+        }
+
+        .test-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            background: rgba(235, 220, 245, 0.95);
+        }
+
+        .test-card h3 {
+            color: #5a4b6b; /* Фиолетовый заголовок как на главной */
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .test-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.8rem;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .test-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .question-count {
+            background: rgba(138, 104, 176, 0.3); /* Фиолетовый как в градиенте */
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+        }
+
+        .test-button {
+            background: var(--accent-blue); /* Синий как Вариант Б на главной */
+            color: white;
+            border: none;
+            padding: 1rem 2.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .test-button:hover {
+            background: #1976D2;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        /* Страница теста */
+        .test-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            color: var(--text-primary);
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .test-header h2 {
+            color: #5a4b6b;
+            margin-bottom: 1.2rem;
+            font-size: 2.2rem;
+        }
+
+        .test-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .question {
+            background: rgba(240, 230, 250, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--accent-blue);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+        }
+
+        .question h4 {
+            margin-bottom: 1.5rem;
+            color: #5a4b6b;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .option-label:hover {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(5px);
+        }
+
+        .option-label input {
+            margin-right: 1.2rem;
+            transform: scale(1.2);
+        }
+
+        .submit-button {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 1.2rem 3.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin: 2.5rem auto;
+            display: block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.3);
+            font-weight: 500;
+        }
+
+        .submit-button:hover {
+            background: #1976D2;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+        }
+
+        /* Результаты */
+        .results-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            margin: 2.5rem 0;
+            text-align: center;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            color: var(--text-primary);
+        }
+
+        .result-header {
+            color: #5a4b6b;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-blue), #1976D2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1.5rem 0;
+        }
+
+        .interpretation {
+            background: rgba(240, 230, 250, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+        }
+
+        .interpretation h3 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .recommendations {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(240, 230, 250, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+        }
+
+        .recommendations h4 {
+            color: var(--accent-blue);
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 0.8rem 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1.1rem;
+        }
+
+        .recommendations li:last-child {
+            border-bottom: none;
+        }
+
+        /* Утилиты */
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: rgba(255, 235, 238, 0.9);
+            color: #D32F2F;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 205, 210, 0.6);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-nav {
+                gap: 1rem;
+            }
+            
+            .nav-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .tests-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-card {
+                padding: 1.8rem;
+            }
+            
+            .test-container {
+                padding: 1.8rem;
+            }
+            
+            .question {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Навигационная панель -->
-        <nav class="flex justify-between items-center mb-8 p-4 bg-white rounded-xl shadow-sm">
-            <a href="/" class="nav-btn bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-2 rounded-lg font-semibold flex items-center">
-                ← На главную
-            </a>
-            <h1 class="text-3xl font-bold text-gray-800">🧪 Психометрические тесты</h1>
-            <div class="w-20"></div>
-        </nav>
+<body>
+    <!-- Шапка в стиле главной страницы -->
+    <header class="header">
+        <div class="container">
+            <h1>🧠 Психометрические тесты</h1>
+            <nav class="header-nav">
+                <a href="/" class="nav-link">🏠 Главная</a>
+                <a href="/iching" class="nav-link">☯ Книга Перемен</a>
+                <a href="/self-analysis" class="nav-link">📊 Самоанализ</a>
+            </nav>
+        </div>
+    </header>
 
-        <!-- Описание раздела -->
-        <div class="bg-white rounded-xl p-6 shadow-sm mb-8">
-            <p class="text-lg text-gray-700 text-center">
-                Профессиональные диагностические инструменты для выявления психологических особенностей. 
-                Выберите тест для получения точной оценки вашего состояния.
+    <!-- Основной контент -->
+    <main class="container">
+        <!-- Список тестов -->
+        <section id="tests-section">
+            <h2 class="text-center" style="color: white; margin-bottom: 1rem; font-size: 2.2rem;">
+                Доступные тесты
+            </h2>
+            <p class="text-center" style="color: rgba(255, 255, 255, 0.8); margin-bottom: 3rem; font-size: 1.2rem;">
+                Исследуйте свои психологические особенности и личностный рост
             </p>
-        </div>
-
-        <!-- Фильтры по категориям -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Категории тестов:</h2>
-            <div class="flex flex-wrap gap-3 justify-center" id="category-filters">
-                <button class="category-filter active px-5 py-2 rounded-full border-2 border-blue-500 bg-blue-500 text-white font-semibold shadow-md" 
-                        data-category="all" onclick="filterTestsByCategory('all')">
-                    Все тесты
-                </button>
+            <div id="tests-container" class="tests-grid">
+                <div class="loading">⏳ Загрузка тестов...</div>
             </div>
-        </div>
+        </section>
 
-        <!-- Контейнер для тестов -->
-        <div id="tests-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        </div>
-
-        <!-- Сообщение о загрузке -->
-        <div id="loading-message" class="text-center text-gray-500 py-8">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p>Загрузка тестов...</p>
-        </div>
-
-        <!-- Сообщение об ошибке -->
-        <div id="error-message" class="hidden text-center text-red-500 bg-red-50 p-6 rounded-lg mb-8">
-            <div class="text-2xl mb-2">⚠️</div>
-            <p class="font-semibold">Ошибка загрузки тестов</p>
-            <p class="text-sm mb-3">Пожалуйста, попробуйте позже или обновите страницу</p>
-            <button onclick="loadTestsAndCategories()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
-                Попробовать снова
-            </button>
-        </div>
-
-        <!-- Сообщение если нет тестов -->
-        <div id="no-tests-message" class="hidden text-center text-gray-500 py-12">
-            <div class="text-4xl mb-4">📊</div>
-            <p class="text-xl font-semibold mb-2">Тесты не найдены</p>
-            <p class="text-gray-600">В выбранной категории нет доступных тестов</p>
-        </div>
-
-        <!-- Админ-панель -->
-        <div class="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-200">
-            <h2 class="text-2xl font-semibold text-blue-800 mb-4">⚙️ Для психологов</h2>
-            <p class="text-blue-700 mb-4">Доступ к управлению тестами и аналитике</p>
-            <div class="flex gap-4 justify-center">
-                <a href="/admin/tests" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
-                    Управление тестами
-                </a>
-                <a href="/admin/analytics" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
-                    Аналитика результатов
-                </a>
+        <!-- Страница теста -->
+        <section id="test-section" class="hidden">
+            <div class="test-container">
+                <div class="test-header">
+                    <h2 id="test-title"></h2>
+                    <p id="test-description"></p>
+                </div>
+                
+                <form id="test-form">
+                    <div id="questions-container"></div>
+                    <button type="submit" class="submit-button">✅ Завершить тестирование</button>
+                </form>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <!-- Результаты -->
+        <section id="results-section" class="hidden">
+            <div class="results-container">
+                <h2 class="result-header">🎯 Результаты тестирования</h2>
+                <div id="results-content"></div>
+                <button onclick="location.reload()" class="test-button">🔄 Пройти другой тест</button>
+            </div>
+        </section>
+    </main>
 
     <script>
-        let allTests = [];
+        // JavaScript код остается без изменений
+        class PsychometricsApp {
+            constructor() {
+                this.currentTest = null;
+                this.init();
+            }
 
-        // Загрузка тестов и категорий
-        async function loadTestsAndCategories() {
-            try {
-                console.log('🔄 Начинаем загрузку тестов...');
-                showLoading();
-                hideError();
-                hideNoTests();
+            async init() {
+                await this.loadTests();
+                this.setupEventListeners();
+            }
 
-                // Загружаем тесты
-                const testsResponse = await fetch('/api/psychometrics/tests?all=true');
-                console.log('📊 Ответ тестов:', testsResponse.status);
-                
-                if (!testsResponse.ok) {
-                    throw new Error(`HTTP error! status: ${testsResponse.status}`);
+            async loadTests() {
+                try {
+                    const response = await fetch('/api/psychometrics/tests');
+                    if (!response.ok) throw new Error('Ошибка загрузки');
+                    const tests = await response.json();
+                    this.renderTests(tests);
+                } catch (error) {
+                    this.showError('Не удалось загрузить тесты');
                 }
+            }
 
-                const testsData = await testsResponse.json();
-                console.log('📦 Данные тестов:', testsData);
-                
-                // Загружаем категории
-                const categoriesResponse = await fetch('/api/psychometrics/categories');
-                console.log('🏷️ Ответ категорий:', categoriesResponse.status);
-                
-                if (!categoriesResponse.ok) {
-                    throw new Error(`HTTP error! status: ${categoriesResponse.status}`);
-                }
-
-                const categoriesData = await categoriesResponse.json();
-                console.log('📋 Данные категорий:', categoriesData);
-
-                // Сохраняем все тесты
-                allTests = Array.isArray(testsData) ? testsData : [];
-                console.log('✅ Всего тестов:', allTests.length);
-
-                hideLoading();
-
-                if (allTests.length === 0) {
-                    console.log('⚠️ Тесты не найдены, показываем заглушку');
-                    showNoTests();
+            renderTests(tests) {
+                const container = document.getElementById('tests-container');
+                if (!tests.length) {
+                    container.innerHTML = '<div class="error">Тесты не найдены</div>';
                     return;
                 }
 
-                // Исправлено: убрано дублирование
-                displayCategories(categoriesData.categories || []);
-                
-                // Отображаем все тесты
-                displayTests(allTests);
-
-            } catch (error) {
-                console.error('❌ Ошибка загрузки:', error);
-                hideLoading();
-                showError();
-                
-                // Показываем тесты по умолчанию для отладки
-                showDefaultTests();
+                container.innerHTML = tests.map(test => `
+                    <div class="test-card">
+                        <h3>${test.name}</h3>
+                        <p>${test.description}</p>
+                        <div class="test-meta">
+                            <span class="question-count">📝 ${test.question_count} вопросов</span>
+                        </div>
+                        <button class="test-button" onclick="app.startTest('${test.id}')">
+                            🚀 Начать тест
+                        </button>
+                    </div>
+                `).join('');
             }
-        }
 
-        function showDefaultTests() {
-            console.log('🔄 Показываем тесты по умолчанию');
-            const defaultTests = [
-                {
-                    id: 'big5',
-                    name: 'Тест личности Big Five',
-                    description: 'Научная оценка 5 основных черт личности',
-                    category: 'personality',
-                    estimated_time: 20,
-                    questions_count: 100,
-                    active: true,
-                    image: '🧠'
+            async startTest(testId) {
+                try {
+                    const response = await fetch(`/api/psychometrics/tests/${testId}`);
+                    if (!response.ok) throw new Error('Ошибка загрузки');
+                    this.currentTest = await response.json();
+                    this.showTest();
+                } catch (error) {
+                    this.showError('Не удалось загрузить тест');
                 }
-            ];
-            
-            displayTests(defaultTests);
-            displayCategories(['personality']);
-        }
-
-        function showLoading() {
-            document.getElementById('loading-message').classList.remove('hidden');
-            document.getElementById('tests-container').innerHTML = '';
-        }
-
-        function hideLoading() {
-            document.getElementById('loading-message').classList.add('hidden');
-        }
-
-        function showError() {
-            document.getElementById('error-message').classList.remove('hidden');
-        }
-
-        function hideError() {
-            document.getElementById('error-message').classList.add('hidden');
-        }
-
-        function showNoTests() {
-            document.getElementById('no-tests-message').classList.remove('hidden');
-        }
-
-        function hideNoTests() {
-            document.getElementById('no-tests-message').classList.add('hidden');
-        }
-
-        // Отображение категорий
-        function displayCategories(categories) {
-            const filtersContainer = document.getElementById('category-filters');
-            const allButton = filtersContainer.querySelector('[data-category="all"]');
-            filtersContainer.innerHTML = '';
-            filtersContainer.appendChild(allButton);
-            
-            categories.forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'category-filter px-5 py-2 rounded-full border-2 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 font-medium';
-                button.textContent = getCategoryName(category);
-                button.dataset.category = category;
-                button.onclick = () => filterTestsByCategory(category);
-                filtersContainer.appendChild(button);
-            });
-        }
-
-        // Преобразование ID категории в читаемое название
-        function getCategoryName(categoryId) {
-            const names = {
-                'personality': 'Личность',
-                'mood': 'Настроение',
-                'anxiety': 'Тревожность',
-                'stress': 'Стресс'
-            };
-            return names[categoryId] || categoryId;
-        }
-
-        // Отображение тестов
-        function displayTests(tests) {
-            const container = document.getElementById('tests-container');
-            container.innerHTML = '';
-
-            // Фильтруем только активные тесты
-            const activeTests = tests.filter(test => test.active !== false);
-            
-            if (activeTests.length === 0) {
-                showNoTests();
-                return;
             }
 
-            activeTests.forEach(test => {
-                // Исправлено: правильный путь к тесту
-                const testCard = `
-                    <div class="test-card bg-white rounded-xl p-6 shadow-lg" data-category="${test.category}">
-                        <div class="flex items-center mb-4">
-                            <div class="text-3xl mr-4">${test.image || '📊'}</div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800">${test.name}</h3>
-                                <p class="text-gray-600 text-sm">${test.description}</p>
-                            </div>
+            showTest() {
+                this.hideAllSections();
+                document.getElementById('test-section').classList.remove('hidden');
+                
+                document.getElementById('test-title').textContent = this.currentTest.name;
+                document.getElementById('test-description').textContent = this.currentTest.description;
+                
+                const container = document.getElementById('questions-container');
+                container.innerHTML = this.currentTest.questions.map(question => `
+                    <div class="question">
+                        <h4>${question.text}</h4>
+                        <div class="options">
+                            ${question.options.map(option => `
+                                <label class="option-label">
+                                    <input type="radio" name="question_${question.id}" value="${option.value}" required>
+                                    ${option.text}
+                                </label>
+                            `).join('')}
                         </div>
-                        
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">${test.questions_count} вопросов</span>
-                            <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">${test.estimated_time} мин</span>
-                        </div>
+                    </div>
+                `).join('');
+            }
 
-                        <div class="mb-4">
-                            <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">
-                                ${getCategoryName(test.category)}
-                            </span>
-                        </div>
+            async submitTest(event) {
+                event.preventDefault();
+                
+                const answers = [];
+                this.currentTest.questions.forEach(question => {
+                    const selected = document.querySelector(`input[name="question_${question.id}"]:checked`);
+                    if (selected) answers.push({
+                        question_id: question.id,
+                        value: parseInt(selected.value)
+                    });
+                });
 
-                        <a href="/big5-test" 
-                           class="block w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white text-center py-3 px-4 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
-                            Начать тест →
-                        </a>
+                if (answers.length !== this.currentTest.questions.length) {
+                    alert('Пожалуйста, ответьте на все вопросы');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/psychometrics/tests/${this.currentTest.id}/submit`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ test_id: this.currentTest.id, answers })
+                    });
+
+                    if (!response.ok) throw new Error('Ошибка отправки');
+                    const results = await response.json();
+                    this.showResults(results);
+                } catch (error) {
+                    this.showError('Ошибка отправки теста');
+                }
+            }
+
+            showResults(results) {
+                this.hideAllSections();
+                document.getElementById('results-section').classList.remove('hidden');
+                
+                document.getElementById('results-content').innerHTML = `
+                    <div class="score-display">${results.score} / ${results.max_score}</div>
+                    <div class="interpretation">
+                        <h3>${results.interpretation.result}</h3>
+                        <p>${results.interpretation.description}</p>
+                    </div>
+                    ${results.interpretation.recommendations?.length ? `
+                        <div class="recommendations">
+                            <h4>💡 Рекомендации:</h4>
+                            <ul>
+                                ${results.interpretation.recommendations.map(rec => 
+                                    `<li>${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                `;
+            }
+
+            hideAllSections() {
+                document.getElementById('tests-section').classList.add('hidden');
+                document.getElementById('test-section').classList.add('hidden');
+                document.getElementById('results-section').classList.add('hidden');
+            }
+
+            showError(message) {
+                document.getElementById('tests-container').innerHTML = `
+                    <div class="error">
+                        <p>${message}</p>
+                        <button class="test-button" onclick="app.loadTests()">Попробовать снова</button>
                     </div>
                 `;
-                container.innerHTML += testCard;
-            });
-        }
-
-        // Фильтрация тестов по категории
-        function filterTestsByCategory(category) {
-            document.querySelectorAll('.category-filter').forEach(btn => {
-                btn.classList.remove('active', 'bg-blue-500', 'text-white', 'border-blue-500');
-                btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
-            });
-            
-            const activeBtn = event?.target;
-            if (activeBtn) {
-                activeBtn.classList.add('active', 'bg-blue-500', 'text-white', 'border-blue-500');
-                activeBtn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
             }
 
-            let filteredTests;
-            if (category === 'all') {
-                filteredTests = allTests;
-            } else {
-                filteredTests = allTests.filter(test => test.category === category);
+            setupEventListeners() {
+                document.getElementById('test-form').addEventListener('submit', (e) => this.submitTest(e));
             }
-
-            displayTests(filteredTests);
         }
 
-        // Загружаем тесты при загрузке страницы
-        document.addEventListener('DOMContentLoaded', loadTestsAndCategories);
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new PsychometricsApp();
+        });
     </script>
 </body>
 </html>

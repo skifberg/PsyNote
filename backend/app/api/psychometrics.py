@@ -1,130 +1,129 @@
 from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 import json
+from typing import Dict, List, Optional
 from pathlib import Path
-from typing import List, Optional
-import logging
 
-router = APIRouter()
+router = APIRouter(prefix="/psychometrics", tags=["psychometrics"])
 
-# Настройка логирования
-logger = logging.getLogger(__name__)
+class TestAnswer(BaseModel):
+    question_id: int
+    value: int
 
-# Путь к файлу с тестами
-TESTS_FILE = Path("data/psychometric_tests.json")
+class TestSubmission(BaseModel):
+    test_id: str
+    answers: List[TestAnswer]
 
-def get_default_tests():
-    """Возвращает тесты по умолчанию если файл не найден"""
-    return {
-        "tests": [
-            {
-                "id": "big5",
-                "name": "Тест личности Big Five",
-                "description": "Научная оценка 5 основных черт личности",
-                "category": "personality",
-                "estimated_time": 20,
-                "questions_count": 100,
-                "active": True,
-                "version": "1.0",
-                "image": "🧠"
-            },
-            {
-                "id": "phq9",
-                "name": "PHQ-9: Оценка депрессии",
-                "description": "Шкала оценки депрессивных симптомов",
-                "category": "mood",
-                "estimated_time": 5,
-                "questions_count": 9,
-                "active": True,
-                "version": "1.0",
-                "image": "😔"
-            },
-            {
-                "id": "gad7",
-                "name": "GAD-7: Шкала тревожности",
-                "description": "Шкала оценки генерализованной тревоги",
-                "category": "anxiety",
-                "estimated_time": 3,
-                "questions_count": 7,
-                "active": True,
-                "version": "1.0",
-                "image": "😰"
+# Путь к папке с тестами
+TESTS_DIR = Path(__file__).parent.parent / "tests"
+
+def load_test(test_id: str) -> Dict:
+    """Загрузка теста из JSON файла"""
+    test_path = TESTS_DIR / f"{test_id}.json"
+    try:
+        if not test_path.exists():
+            raise HTTPException(status_code=404, detail="Тест не найден")
+        
+        with open(test_path, "r", encoding="utf-8") as f:
+            test_data = json.load(f)
+            
+        # Добавляем подсчет вопросов для совместимости
+        if "questions" in test_data:
+            test_data["question_count"] = len(test_data["questions"])
+            
+        return test_data
+        
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Ошибка формата теста")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ошибка загрузки теста: {str(e)}")
+
+def calculate_score(test_data: Dict, answers: List[TestAnswer]) -> int:
+    """Подсчет баллов теста"""
+    total_score = 0
+    answer_dict = {answer.question_id: answer.value for answer in answers}
+    
+    for question in test_data["questions"]:
+        if question["id"] in answer_dict:
+            total_score += answer_dict[question["id"]]
+    
+    return total_score
+
+def interpret_result(test_data: Dict, score: int) -> Dict:
+    """Интерпретация результатов"""
+    for range_data in test_data["scoring"]["ranges"]:
+        if range_data["min"] <= score <= range_data["max"]:
+            return {
+                "result": range_data["result"],
+                "description": range_data.get("description", ""),
+                "recommendations": range_data.get("recommendations", [])
             }
-        ]
+    
+    return {
+        "result": "Результат не определен",
+        "description": "Невозможно интерпретировать полученные баллы",
+        "recommendations": ["Обратитесь к специалисту для консультации"]
     }
 
-class TestConfig:
-    @staticmethod
-    def load_tests():
-        """Загрузить конфигурацию тестов"""
-        try:
-            if not TESTS_FILE.exists():
-                # Создаем файл с тестами по умолчанию
-                default_tests = get_default_tests()
-                with open(TESTS_FILE, 'w', encoding='utf-8') as f:
-                    json.dump(default_tests, f, ensure_ascii=False, indent=2)
-                return default_tests
-            
-            with open(TESTS_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-                
-        except Exception as e:
-            logger.error(f"Ошибка загрузки тестов: {str(e)}")
-            return get_default_tests()
-    
-    @staticmethod
-    def save_tests(data):
-        """Сохранить конфигурацию тестов"""
-        try:
-            with open(TESTS_FILE, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-            return True
-        except Exception as e:
-            logger.error(f"Ошибка сохранения тестов: {str(e)}")
-            return False
-
 @router.get("/tests")
-async def get_available_tests(all: bool = False):
+async def get_available_tests():
     """Получить список доступных тестов"""
+    tests = []
     try:
-        data = TestConfig.load_tests()
+        if TESTS_DIR.exists():
+            for file in TESTS_DIR.glob("*.json"):
+                try:
+                    with open(file, "r", encoding="utf-8") as f:
+                        test_data = json.load(f)
+                        tests.append({
+                            "id": test_data["id"],
+                            "name": test_data["name"],
+                            "description": test_data["description"],
+                            "question_count": len(test_data.get("questions", []))
+                        })
+                except Exception as e:
+                    print(f"Ошибка загрузки теста {file}: {e}")
+                    continue
+                    
+        return tests
         
-        # Для отладки
-        logger.info(f"Загружены тесты: {data}")
-        
-        if all:
-            return data['tests']
-        else:
-            # Возвращаем только активные тесты
-            active_tests = [test for test in data['tests'] if test.get('active', True)]
-            return active_tests
+    except Exception as e:
+        print(f"Ошибка получения тестов: {e}")
+        return []
+
+@router.get("/tests/{test_id}")
+async def get_test(test_id: str):
+    """Получить тест по ID"""
+    return load_test(test_id)
+
+@router.post("/tests/{test_id}/submit")
+async def submit_test(test_id: str, submission: TestSubmission):
+    """Отправить ответы на тест"""
+    if test_id != submission.test_id:
+        raise HTTPException(status_code=400, detail="Несоответствие ID теста")
     
-    except Exception as e:
-        logger.error(f"Ошибка в get_available_tests: {str(e)}")
-        return get_default_tests()['tests']
-
-@router.get("/categories")
-async def get_test_categories():
-    """Получить список категорий тестов"""
-    try:
-        data = TestConfig.load_tests()
-        categories = list(set(test['category'] for test in data['tests']))
-        return {"categories": categories}
-    except Exception as e:
-        logger.error(f"Ошибка в get_test_categories: {str(e)}")
-        return {"categories": ["personality", "mood", "anxiety"]}
-
-# Простые эндпоинты для отладки
-@router.get("/health")
-async def health_check():
-    """Проверка здоровья модуля"""
-    return {"status": "healthy", "module": "psychometrics"}
-
-@router.get("/debug")
-async def debug_info():
-    """Отладочная информация"""
-    data = TestConfig.load_tests()
+    test_data = load_test(test_id)
+    
+    # Валидация ответов
+    if len(submission.answers) != len(test_data["questions"]):
+        raise HTTPException(status_code=400, detail="Не все вопросы отвечены")
+    
+    # Подсчет баллов
+    score = calculate_score(test_data, submission.answers)
+    
+    # Интерпретация
+    interpretation = interpret_result(test_data, score)
+    
+    # Вычисляем максимальный возможный балл
+    max_score = 0
+    for question in test_data["questions"]:
+        max_option = max(option["value"] for option in question["options"])
+        max_score += max_option
+    
     return {
-        "file_exists": TESTS_FILE.exists(),
-        "tests_count": len(data['tests']),
-        "tests": data['tests']
+        "test_id": test_id,
+        "test_name": test_data["name"],
+        "score": score,
+        "max_score": max_score,
+        "interpretation": interpretation
     }

@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import sys
 from pathlib import Path
+import os
 
-# Создаем экземпляр приложения FastAPI
+# Получаем абсолютный путь к директории приложения
+BASE_DIR = Path(__file__).resolve().parent
+
 app = FastAPI(
     title="PsyNote",
     description="Психологическое веб-приложение для самоанализа и работы с собой",
@@ -12,8 +14,11 @@ app = FastAPI(
 )
 
 # Правильные пути к статическим файлам и шаблонам
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+static_dir = BASE_DIR / "static"
+templates_dir = BASE_DIR / "templates"
+
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+templates = Jinja2Templates(directory=templates_dir)
 
 # Импортируем и подключаем роутеры
 try:
@@ -29,6 +34,14 @@ try:
     print("✅ Модуль Self Analysis подключен")
 except ImportError as e:
     print(f"❌ Ошибка импорта Self Analysis: {e}")
+
+# Подключаем модуль психометрических тестов
+try:
+    from api.psychometrics import router as psychometrics_router
+    app.include_router(psychometrics_router, prefix="/api", tags=["Psychometrics"])  # Изменили префикс!
+    print("✅ Модуль Psychometrics подключен")
+except ImportError as e:
+    print(f"❌ Ошибка импорта Psychometrics: {e}")
 
 # Basic routes
 @app.get("/")
