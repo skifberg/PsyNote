@@ -37,7 +37,13 @@ try:
     print("✅ Модуль Self Analysis подключен")
 except ImportError as e:
     print(f"❌ Ошибка импорта Self Analysis: {e}")
-
+try:
+    from api.psychometrics import router as psychometrics_router
+    app.include_router(psychometrics_router, prefix="/api/psychometrics", tags=["Psychometrics"])
+    print("✅ Модуль Psychometrics подключен")
+except ImportError as e:
+    print(f"❌ Ошибка импорта Psychometrics: {e}")
+    
 # Пытаемся подключить Big Five модуль
 try:
     from api.big5 import router as big5_router

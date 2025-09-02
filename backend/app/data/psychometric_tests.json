@@ -1,0 +1,48 @@
+{
+  "tests": [
+    {
+      "id": "big5",
+      "name": "Тест личности Big Five",
+      "description": "Научная оценка 5 основных черт личности",
+      "category": "personality",
+      "estimated_time": 20,
+      "questions_count": 100,
+      "active": true,
+      "version": "1.0",
+      "image": "🧠"
+    },
+    {
+      "id": "phq9",
+      "name": "PHQ-9: Оценка депрессии",
+      "description": "Шкала оценки депрессивных симптомов",
+      "category": "mood",
+      "estimated_time": 5,
+      "questions_count": 9,
+      "active": true,
+      "version": "1.0",
+      "image": "😔"
+    },
+    {
+      "id": "gad7",
+      "name": "GAD-7: Шкала тревожности",
+      "description": "Шкала оценки генерализованной тревоги",
+      "category": "anxiety",
+      "estimated_time": 3,
+      "questions_count": 7,
+      "active": true,
+      "version": "1.0",
+      "image": "😰"
+    },
+    {
+      "id": "burnout",
+      "name": "Тест на выгорание",
+      "description": "Диагностика профессионального выгорания",
+      "category": "stress",
+      "estimated_time": 10,
+      "questions_count": 22,
+      "active": false,
+      "version": "1.0",
+      "image": "🔥"
+    }
+  ]
+}
