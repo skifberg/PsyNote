@@ -3,3 +3,6 @@ asyncpg==0.29.0
 aiofiles==23.2.0
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
+# AI Dependencies
+requests>=2.28.0
+python-dotenv>=0.19.0
